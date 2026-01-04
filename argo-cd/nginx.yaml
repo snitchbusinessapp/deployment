@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://github.com/snitchbusinessapp/api.git"
+    repoURL: "https://github.com/snitchbusinessapp/deployment.git"
     path: manifests
     targetRevision: main
   destination:
