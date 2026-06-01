@@ -1,0 +1,11 @@
+postgres:
+  name: postgres
+  namespace: database
+  instances: 3
+  storageClass: local-path
+  storageSize: 50Gi
+
+backup:
+  destinationPath: s3://my-postgres-backups/database
+  endpointURL: https://s3.amazonaws.com
+  retentionPolicy: 30d
