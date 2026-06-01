@@ -54,4 +54,4 @@ uninstall k3s on control plane:
 - kubectl patch svc barman-cloud -n cnpg-system --type=merge -p '{"metadata":{"finalizers":[]}}'
 - kubectl delete svc barman-cloud -n cnpg-system
 - kubectl delete namespace cert-manager
-- kubectl get crd -o name | Select-String "postgresql.cnpg.io|barmancloud.cnpg.io|cert-manager.io|acme.cert-manager.io" | ForEach-Object { kubectl delete $\_.Line }
+- kubectl get crd -o name | Where-Object { $_ -match 'postgresql\.cnpg\.io|barmancloud\.cnpg\.io|cert-manager\.io|acme\.cert-manager\.io' } | ForEach-Object { kubectl delete $_ }

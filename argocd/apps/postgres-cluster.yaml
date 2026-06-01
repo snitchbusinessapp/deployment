@@ -9,7 +9,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/your-org/your-deployment-repo.git
+    repoURL: git@github.com:snitchbusinessapp/deployment.git
     targetRevision: main
     path: deployment/postgres-cluster
     helm:
