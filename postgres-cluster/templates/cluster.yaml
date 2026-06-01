@@ -1,14 +1,14 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: { { .Values.postgres.name } }
-  namespace: { { .Values.postgres.namespace } }
+  name: {{ .Values.postgres.name }}
+  namespace: {{ .Values.postgres.namespace }}
 spec:
-  instances: { { .Values.postgres.instances } }
+  instances: {{ .Values.postgres.instances }}
 
   storage:
-    size: { { .Values.postgres.storageSize | quote } }
-    storageClass: { { .Values.postgres.storageClass | quote } }
+    size: {{ .Values.postgres.storageSize | quote }}
+    storageClass: {{ .Values.postgres.storageClass | quote }}
 
   plugins:
     - name: barman-cloud.cloudnative-pg.io

@@ -2,12 +2,12 @@ apiVersion: barmancloud.cnpg.io/v1
 kind: ObjectStore
 metadata:
   name: postgres-backup-store
-  namespace: { { .Values.postgres.namespace } }
+  namespace: {{ .Values.postgres.namespace }}
 spec:
-  retentionPolicy: { { .Values.backup.retentionPolicy | quote } }
+  retentionPolicy: {{ .Values.backup.retentionPolicy | quote }}
   configuration:
-    destinationPath: { { .Values.backup.destinationPath | quote } }
-    endpointURL: { { .Values.backup.endpointURL | quote } }
+    destinationPath: {{ .Values.backup.destinationPath | quote }}
+    endpointURL: {{ .Values.backup.endpointURL | quote }}
     s3Credentials:
       accessKeyId:
         name: postgres-backup-secret
