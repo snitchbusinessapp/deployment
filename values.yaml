@@ -171,3 +171,7 @@ cnpgApply:
   databaseNamespace: database
   operatorDeploymentName: cnpg-cloudnative-pg
   barmanPluginDeploymentName: cnpg-barman-cloud
+
+cloudnative-pg:
+  crds:
+    create: true
