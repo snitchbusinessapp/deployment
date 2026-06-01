@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: git@github.com:snitchbusinessapp/deployment.git
     targetRevision: main
-    path: deployment/postgres-cluster
+    path: argocd/apps/postgres-cluster
     helm:
       releaseName: postgres-cluster
       valueFiles:
