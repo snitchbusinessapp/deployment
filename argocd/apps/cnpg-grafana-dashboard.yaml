@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cnpg-grafana-dashboard
+  namespace: argocd
+  annotations:
+    # After kube-prometheus-stack (-15); Grafana sidecar loads ConfigMaps in monitoring
+    argocd.argoproj.io/sync-wave: "-14"
+spec:
+  project: default
+
+  source:
+    repoURL: https://cloudnative-pg.github.io/grafana-dashboards
+    chart: cluster
+    targetRevision: 0.0.5
+    helm:
+      releaseName: cnpg-grafana-dashboard
+      valuesObject:
+        grafanaDashboard:
+          namespace: monitoring
+          configMapName: cnpg-grafana-dashboard
+          # Matches kube-prometheus-stack Grafana sidecar defaults (grafana_dashboard=1)
+          sidecarLabel: grafana_dashboard
+          sidecarLabelValue: "1"
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

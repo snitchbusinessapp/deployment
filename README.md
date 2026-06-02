@@ -1,3 +1,5 @@
+# SETUP
+
 1- install k3s:
 Install
 PUBLIC_IP=$(curl -s https://ipv4.icanhazip.com)
@@ -55,3 +57,31 @@ uninstall k3s on control plane:
 - kubectl delete svc barman-cloud -n cnpg-system
 - kubectl delete namespace cert-manager
 - kubectl get crd -o name | Where-Object { $_ -match 'postgresql\.cnpg\.io|barmancloud\.cnpg\.io|cert-manager\.io|acme\.cert-manager\.io' } | ForEach-Object { kubectl delete $_ }
+
+# CONNECT TO THE DB
+
+## Get the creds
+
+$secret = kubectl -n database get secret postgres-app -o json | ConvertFrom-Json
+
+$username = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret.data.username))
+$password = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret.data.password))
+$dbname = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($secret.data.dbname))
+
+Write-Host "username: $username"
+Write-Host "password: $password"
+Write-Host "database: $dbname"
+
+## Port-forward the write database
+
+kubectl -n database port-forward svc/postgres-rw 15432:5432
+
+## In Beekeeper, create a connection:
+
+Name: postgres-rw
+Host: localhost
+Port: 15432
+User: app
+Password: <password from secret>
+Database: app
+SSL: disabled / prefer
