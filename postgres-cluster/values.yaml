@@ -10,7 +10,7 @@ postgres:
       memory: 7Gi
   postgresql:
     parameters:
-      max_connections: "500"
+      max_connections: "1000"
 
 backup:
   destinationPath: s3://my-postgres-backups/database
