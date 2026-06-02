@@ -9,6 +9,10 @@ spec:
   resources:
     {{- toYaml .Values.postgres.resources | nindent 4 }}
 
+  postgresql:
+    parameters:
+      {{- toYaml .Values.postgres.postgresql.parameters | nindent 6 }}
+
   storage:
     size: {{ .Values.postgres.storageSize | quote }}
     storageClass: {{ .Values.postgres.storageClass | quote }}

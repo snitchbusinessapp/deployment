@@ -8,6 +8,9 @@ postgres:
     requests:
       cpu: "4"
       memory: 7Gi
+  postgresql:
+    parameters:
+      max_connections: "500"
 
 backup:
   destinationPath: s3://my-postgres-backups/database
