@@ -33,3 +33,6 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      # Large dashboard JSON in ConfigMap data; client-side apply duplicates it in
+      # last-applied-configuration and exceeds the 256KiB annotation limit.
+      - ServerSideApply=true
