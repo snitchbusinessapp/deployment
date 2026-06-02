@@ -7,7 +7,7 @@ postgres:
   resources:
     requests:
       cpu: "4"
-      memory: 8Gi
+      memory: 7Gi
 
 backup:
   destinationPath: s3://my-postgres-backups/database

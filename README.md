@@ -53,6 +53,7 @@ uninstall k3s on control plane:
 - argocd: kubectl -n argocd port-forward svc/argocd-server 8080:443
 - grapphana: kubectl -n monitoring port-forward svc/kube-prometheus-stack-grafana 3000:80
 - prometheus: kubectl -n monitoring port-forward svc/kube-prometheus-stack-prometheus 9090:9090
+- db: kubectl -n database port-forward svc/postgres-rw 15432:5432
 
 # CLEANING
 
@@ -78,10 +79,6 @@ Write-Host "username: $username"
 Write-Host "password: $password"
 Write-Host "database: $dbname"
 
-## Port-forward the write database
-
-kubectl -n database port-forward svc/postgres-rw 15432:5432
-
 ## In Beekeeper, create a connection:
 
 Name: postgres-rw
@@ -93,13 +90,14 @@ Database: app
 SSL: disabled / prefer
 
 # Enable metrics api
+
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 kubectl patch deployment metrics-server -n kube-system --type=json -p='[
-  {
-    "op": "add",
-    "path": "/spec/template/spec/containers/0/args/-",
-    "value": "--kubelet-insecure-tls"
-  }
+{
+"op": "add",
+"path": "/spec/template/spec/containers/0/args/-",
+"value": "--kubelet-insecure-tls"
+}
 ]'
 
 kubectl rollout status deployment metrics-server -n kube-system
