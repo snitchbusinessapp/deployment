@@ -48,6 +48,12 @@ uninstall k3s on control plane:
 
 7- kubectl apply -f argocd/root-app.yaml
 
+# PORT FORWARDINGS
+
+- argocd: kubectl -n argocd port-forward svc/argocd-server 8080:443
+- grapphana: kubectl -n monitoring port-forward svc/kube-prometheus-stack-grafana 3000:80
+- prometheus: kubectl -n monitoring port-forward svc/kube-prometheus-stack-prometheus 9090:9090
+
 # CLEANING
 
 - kubectl -n argocd delete application platform-root
@@ -85,3 +91,15 @@ User: app
 Password: <password from secret>
 Database: app
 SSL: disabled / prefer
+
+# Enable metrics api
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+kubectl patch deployment metrics-server -n kube-system --type=json -p='[
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/0/args/-",
+    "value": "--kubelet-insecure-tls"
+  }
+]'
+
+kubectl rollout status deployment metrics-server -n kube-system

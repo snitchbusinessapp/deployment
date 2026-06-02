@@ -6,6 +6,9 @@ metadata:
 spec:
   instances: {{ .Values.postgres.instances }}
 
+  resources:
+    {{- toYaml .Values.postgres.resources | nindent 4 }}
+
   storage:
     size: {{ .Values.postgres.storageSize | quote }}
     storageClass: {{ .Values.postgres.storageClass | quote }}

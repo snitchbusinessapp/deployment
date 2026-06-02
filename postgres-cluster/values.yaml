@@ -4,6 +4,10 @@ postgres:
   instances: 3
   storageClass: standard
   storageSize: 50Gi
+  resources:
+    requests:
+      cpu: "4"
+      memory: 8Gi
 
 backup:
   destinationPath: s3://my-postgres-backups/database
